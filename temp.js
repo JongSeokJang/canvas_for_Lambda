@@ -5,15 +5,17 @@ const Canvas= require('canvas');
 const AWS   = require('aws-sdk');
 
 const Image   = Canvas.Image;
-const canvas  = new Canvas(600,600)
+//const canvas  = new Canvas(600,600)
+const canvas = Canvas.createCanvas(600,600)
 const ctx     = canvas.getContext('2d')
 
 exports.handler = (event, context, callback) =>{
 
-  var title = "응급환자 6명중 1명 '음주상태'… 응급실 25분 더 체류";
-  //var title = " hihihihi";
-  //var subtitle = "hihihihi";
-  var subtitle = "응급환자 9만5천명 분석결과… '다른 응급환자 치료기회 줄어'";
+  //const title = "응급환자 6명중 1명 '음주상태'… 응급실 25분 더 체류";
+  //const subtitle = "응급환자 9만5천명 분석결과… '다른 응급환자 치료기회 줄어'";
+  const title = "this is title"
+  const subtitle = "this is subtitle"
+
 
   ctx.fillStyle = '#FFF'
   ctx.fillRect(0, 0, 600, 600)
@@ -44,11 +46,11 @@ exports.handler = (event, context, callback) =>{
   ctx.drawImage(img, 0, 0, 600, 400)
   ctx.restore();
 
-  canvas.createPNGStream().pipe(fs.createWriteStream(path.join(__dirname, 'image-src.jpg')))
+  //canvas.createPNGStream().pipe(fs.createWriteStream(path.join(__dirname, 'image-src.jpg')))
 
   AWS.config.region = 'ap-northeast-2'; // 리전
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'ap-northeast-2:3f0f96a6-43cd-49d0-96fc-440708dd8e8f',
+    IdentityPollID: 'xxxxxxxxxxxxx'
   });
 
   var bucketName = 'drslidesns'; // Enter your bucket name
@@ -73,14 +75,13 @@ exports.handler = (event, context, callback) =>{
   };
 
   bucket.putObject(params, function (err, data) {
-    console.log(data);
-    console.log(err ? err : 'UPLOADED.');
-
 
     if( err){
+      console.log("error");
       callback(null, JSON.stringify(err,null));
     }
     else{
+      console.log("success");
       callback(null, JSON.stringify(data,null));
 
     }
